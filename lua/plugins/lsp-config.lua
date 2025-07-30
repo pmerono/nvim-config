@@ -2,35 +2,46 @@ return {
   {
     "mason-org/mason.nvim",
     version = "1.11.0",
+    lazy = false,
     config = function()
       require("mason").setup()
-    end
+    end,
   },
   {
     "mason-org/mason-lspconfig.nvim",
     version = "1.32.0",
+    lazy = false,
     config = function()
       require("mason-lspconfig").setup({
         ensure_installed = {
           "lua_ls",
           "ts_ls",
           "angularls",
-          "cssls"
-        }
+          "cssls",
+          "jdtls",
+        },
       })
-    end
+    end,
   },
   {
     "neovim/nvim-lspconfig",
+    lazy = false,
     config = function()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
       local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({})
+      lspconfig.lua_ls.setup({
+        capabilities = capabilities,
+      })
       lspconfig.ts_ls.setup({})
       lspconfig.cssls.setup({})
+      lspconfig.jdtls.setup({})
 
       local ts_probe = "/home/raslor/.config/nvm/versions/node/v24.4.1/lib/node_modules"
-      local ng_probe = "/home/raslor/.config/nvm/versions/node/v24.4.1/lib/node_modules/@angular/language-server/node_modules"
-      local angular_cmd = {"ngserver", "--stdio", "--tsProbeLocations", ts_probe, "--ngProbeLocations", ng_probe}
+      local ng_probe =
+      "/home/raslor/.config/nvm/versions/node/v24.4.1/lib/node_modules/@angular/language-server/node_modules"
+      local angular_cmd =
+      { "ngserver", "--stdio", "--tsProbeLocations", ts_probe, "--ngProbeLocations", ng_probe }
 
       lspconfig.angularls.setup({
         cmd = angular_cmd,
@@ -39,8 +50,10 @@ return {
         end,
       })
 
-      vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
-      vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
-    end
-  }
+      vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
+      vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
+      vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
+      vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+    end,
+  },
 }
