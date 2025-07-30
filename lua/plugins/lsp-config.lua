@@ -33,9 +33,15 @@ return {
       lspconfig.lua_ls.setup({
         capabilities = capabilities,
       })
-      lspconfig.ts_ls.setup({})
-      lspconfig.cssls.setup({})
-      lspconfig.jdtls.setup({})
+      lspconfig.ts_ls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.cssls.setup({
+        capabilities = capabilities,
+      })
+      lspconfig.jdtls.setup({
+        capabilities = capabilities,
+      })
 
       local ts_probe = "/home/raslor/.config/nvm/versions/node/v24.4.1/lib/node_modules"
       local ng_probe =
@@ -44,6 +50,7 @@ return {
       { "ngserver", "--stdio", "--tsProbeLocations", ts_probe, "--ngProbeLocations", ng_probe }
 
       lspconfig.angularls.setup({
+        capabilities = capabilities,
         cmd = angular_cmd,
         on_new_config = function(new_config)
           new_config.cmd = angular_cmd
@@ -54,6 +61,10 @@ return {
       vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
       vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
       vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+
+      vim.diagnostic.config({
+        virtual_text = true
+      })
     end,
   },
 }
