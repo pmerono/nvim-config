@@ -29,18 +29,17 @@ return {
     config = function()
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-      local lspconfig = require("lspconfig")
-      lspconfig.lua_ls.setup({
-        capabilities = capabilities,
+      vim.lsp.config('lua_ls', {
+        capabilities = capabilities
       })
-      lspconfig.ts_ls.setup({
-        capabilities = capabilities,
+      vim.lsp.config('ts_ls', {
+        capabilities = capabilities
       })
-      lspconfig.cssls.setup({
-        capabilities = capabilities,
+      vim.lsp.config('cssls', {
+        capabilities = capabilities
       })
-      lspconfig.jdtls.setup({
-        capabilities = capabilities,
+      vim.lsp.config('jdtls', {
+        capabilities = capabilities
       })
 
       local ts_probe = "/home/raslor/.config/nvm/versions/node/v24.4.1/lib/node_modules"
@@ -49,7 +48,7 @@ return {
       local angular_cmd =
       { "ngserver", "--stdio", "--tsProbeLocations", ts_probe, "--ngProbeLocations", ng_probe }
 
-      lspconfig.angularls.setup({
+      vim.lsp.config('angularls', {
         capabilities = capabilities,
         cmd = angular_cmd,
         on_new_config = function(new_config)
